@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/alisoo-favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>阿里搜 - 智能搜索平台</title>
+    <meta name="description" content="阿里搜(AliSoo) - 专业的智能搜索平台，为您提供精准、快速的搜索服务" />
+    <meta name="keywords" content="阿里搜,AliSoo,搜索,智能搜索,搜索引擎" />
+    <meta name="author" content="阿里搜团队" />
+    <style>
+      /* 确保页面占满整个视口 */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+      /* 添加加载动画 */
+      .app-loading {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        z-index: 9999;
+      }
+      .app-loading-spinner {
+        width: 50px;
+        height: 50px;
+        border: 4px solid rgba(24, 144, 255, 0.2);
+        border-radius: 50%;
+        border-top-color: #1890ff;
+        animation: spin 1s ease-in-out infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .loading-text {
+        margin-top: 20px;
+        color: #1890ff;
+        font-size: 16px;
+        font-weight: 500;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      }
+    </style>
+    <script type="module" crossorigin src="/assets/index-71bd97dd.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/monaco-4009e1f3.js">
+    <link rel="stylesheet" href="/assets/monaco-79748880.css">
+    <link rel="stylesheet" href="/assets/index-fc90e693.css">
+  </head>
+  <body>
+    <div id="app">
+      <!-- 添加加载指示器 -->
+      <div class="app-loading">
+        <div>
+          <div class="app-loading-spinner"></div>
+          <div class="loading-text">阿里搜正在加载...</div>
+        </div>
+      </div>
+    </div>
+    
+  </body>
+</html>

@@ -1,0 +1,92 @@
+{
+  "blog": {
+    "title": "阿里搜技术博客",
+    "description": "分享技术心得，记录成长足迹",
+    "author": "阿里搜团队",
+    "avatar": "/blog/images/avatar.jpg"
+  },
+  "categories": [
+    {
+      "name": "Vue.js",
+      "description": "Vue.js 相关技术文章",
+      "color": "#4fc08d",
+      "count": 5
+    },
+    {
+      "name": "JavaScript",
+      "description": "JavaScript 核心技术",
+      "color": "#f7df1e",
+      "count": 8
+    },
+    {
+      "name": "CSS",
+      "description": "CSS 样式与布局",
+      "color": "#1572b6",
+      "count": 4
+    },
+    {
+      "name": "前端工程化",
+      "description": "前端工程化实践",
+      "color": "#ff6b6b",
+      "count": 3
+    },
+    {
+      "name": "性能优化",
+      "description": "Web 性能优化技巧",
+      "color": "#4ecdc4",
+      "count": 2
+    },
+    {
+      "name": "大数据",
+      "description": "大数据技术与分布式系统",
+      "color": "#9333ea",
+      "count": 3
+    }
+  ],
+  "tags": [
+    "Vue3",
+    "Composition API",
+    "JavaScript",
+    "ES6+",
+    "CSS Grid",
+    "Flexbox",
+    "异步编程",
+    "Promise",
+    "async/await",
+    "Webpack",
+    "Vite",
+    "性能优化",
+    "响应式设计",
+    "前端开发",
+    "TypeScript",
+    "Node.js",
+    "HTML5",
+    "移动端开发",
+    "PWA",
+    "微前端",
+    "MapReduce",
+    "BigTable",
+    "GFS",
+    "分布式系统",
+    "大数据",
+    "Google",
+    "分布式存储",
+    "分布式计算",
+    "容错机制",
+    "负载均衡"
+  ],
+  "settings": {
+    "postsPerPage": 6,
+    "excerptLength": 200,
+    "enableComments": false,
+    "enableSearch": true,
+    "enableCategories": true,
+    "enableTags": true,
+    "theme": {
+      "primaryColor": "#3b82f6",
+      "accentColor": "#667eea",
+      "backgroundColor": "#f8fafc",
+      "textColor": "#374151"
+    }
+  }
+}

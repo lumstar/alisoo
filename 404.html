@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>阿里搜 - 重定向中</title>
+  <script type="text/javascript">
+    // 单页应用的GitHub Pages重定向
+    (function(){
+      // 保存URL中的路径部分
+      var pathSegmentsToKeep = 1; // 如果部署在子目录，可能需要调整这个值
+      
+      var l = window.location;
+      var path = l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/';
+      var restPath = l.pathname.slice(path.length);
+      var query = l.search || '';
+      var hash = l.hash || '';
+      
+      // 将当前URL的路径部分存储到sessionStorage
+      sessionStorage.setItem('redirect', restPath + query + hash);
+      
+      // 重定向到根目录
+      l.replace(
+        path + '?' + 
+        (query.length ? query.substring(1) + '&' : '') + 
+        'p=' + encodeURIComponent(restPath + hash)
+      );
+    })();
+  </script>
+</head>
+<body>
+  <h2>正在重定向...</h2>
+</body>
+</html>

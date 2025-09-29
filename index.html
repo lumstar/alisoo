@@ -13,6 +13,14 @@
     <script type="text/javascript">
       // 检查是否有来自重定向的路径
       (function() {
+        // 防止无限重定向循环的标记
+        var redirectAttempted = sessionStorage.getItem('redirectAttempted');
+        if (redirectAttempted === 'true') {
+          // 如果已经尝试过重定向，清除标记并退出
+          sessionStorage.removeItem('redirectAttempted');
+          return;
+        }
+
         var redirect = sessionStorage.getItem('redirect');
         if (redirect && redirect !== '') {
           // 清除存储的重定向
@@ -27,13 +35,45 @@
         if (query) {
           var params = new URLSearchParams(query);
           var path = params.get('p');
-          if (path) {
+
+          // 只有当path有实际值时才进行重定向
+          if (path && path.trim() !== '') {
+            // 设置重定向尝试标记
+            sessionStorage.setItem('redirectAttempted', 'true');
+
             // 删除p参数
             params.delete('p');
             var newQuery = params.toString();
             var newPath = path + (newQuery ? ('?' + newQuery) : '');
+
             // 使用 history API 导航到正确的URL
             history.replaceState(null, null, newPath);
+          } else if (params.has('p')) {
+            // 如果p参数存在但为空，则清除所有p参数
+            var newParams = new URLSearchParams();
+            var hasEmptyP = false;
+
+            for (var pair of params.entries()) {
+              if (pair[0] === 'p' && (!pair[1] || pair[1] === '')) {
+                hasEmptyP = true;
+                // 跳过空的p参数
+                continue;
+              } else if (pair[0] !== 'p') {
+                newParams.append(pair[0], pair[1]);
+              }
+            }
+
+            // 只有在有空p参数的情况下才进行URL更新
+            if (hasEmptyP) {
+              // 设置重定向尝试标记
+              sessionStorage.setItem('redirectAttempted', 'true');
+
+              var newQuery = newParams.toString();
+              var newUrl = l.pathname + (newQuery ? ('?' + newQuery) : '');
+
+              // 使用 history API 更新URL，但保留当前路径
+              history.replaceState(null, null, newUrl);
+            }
           }
         }
       })();

@@ -1,140 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>阿里搜 - 专业的智能搜索平台</title>
-    <meta name="description" content="阿里搜是一个专业的智能搜索平台，提供多引擎搜索、文本差异对比、JSON格式化、时间戳转换等多种实用工具。">
-    <meta name="keywords" content="阿里搜,智能搜索,搜索平台,文本对比,JSON格式化,时间戳转换,博客文章">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1832241453006526"
-            crossorigin="anonymous"></script>
-    <!-- GitHub Pages SPA 重定向脚本 -->
-    <script type="text/javascript">
-      // 检查是否有来自重定向的路径
-      (function() {
-        // 防止无限重定向循环的标记
-        var redirectAttempted = sessionStorage.getItem('redirectAttempted');
-        if (redirectAttempted === 'true') {
-          // 如果已经尝试过重定向，清除标记并退出
-          sessionStorage.removeItem('redirectAttempted');
-          return;
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>阿里搜 - 专业的智能搜索平台</title>
+  <meta name="description" content="阿里搜是一个专业的智能搜索平台，提供多引擎搜索、文本差异对比、JSON格式化、时间戳转换等多种实用工具。">
+  <meta name="keywords" content="阿里搜,智能搜索,搜索平台,文本对比,JSON格式化,时间戳转换,博客文章">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1832241453006526"
+          crossorigin="anonymous"></script>
+  <!-- SPA 路由处理脚本 -->
+  <script type="text/javascript">
+    // 完全重写的路由处理脚本
+    (function() {
+      // 检查是否已经处理过，防止循环
+      if (window.__routeProcessed) {
+        return;
+      }
+      window.__routeProcessed = true;
+
+      // 处理会话存储中的重定向
+      var redirect = sessionStorage.getItem('redirect');
+      if (redirect && redirect !== '') {
+        sessionStorage.removeItem('redirect');
+        history.replaceState(null, null, redirect);
+        return; // 处理完重定向后直接返回
+      }
+
+      // 处理URL参数
+      var url = new URL(window.location.href);
+      var hasEmptyP = false;
+
+      // 检查是否有空的p参数
+      url.searchParams.forEach(function(value, key) {
+        if (key === 'p' && (!value || value === '')) {
+          hasEmptyP = true;
         }
+      });
 
-        var redirect = sessionStorage.getItem('redirect');
-        if (redirect && redirect !== '') {
-          // 清除存储的重定向
-          sessionStorage.removeItem('redirect');
-          // 使用 history API 导航到正确的URL
-          history.replaceState(null, null, redirect);
-        }
+      // 如果有空的p参数，清除所有p参数
+      if (hasEmptyP) {
+        var newUrl = new URL(window.location.href);
+        var newSearchParams = new URLSearchParams();
 
-        // 检查URL参数中是否有路径信息
-        var l = window.location;
-        var query = l.search;
-        if (query) {
-          var params = new URLSearchParams(query);
-          var path = params.get('p');
-
-          // 只有当path有实际值时才进行重定向
-          if (path && path.trim() !== '') {
-            // 设置重定向尝试标记
-            sessionStorage.setItem('redirectAttempted', 'true');
-
-            // 删除p参数
-            params.delete('p');
-            var newQuery = params.toString();
-            var newPath = path + (newQuery ? ('?' + newQuery) : '');
-
-            // 使用 history API 导航到正确的URL
-            history.replaceState(null, null, newPath);
-          } else if (params.has('p')) {
-            // 如果p参数存在但为空，则清除所有p参数
-            var newParams = new URLSearchParams();
-            var hasEmptyP = false;
-
-            for (var pair of params.entries()) {
-              if (pair[0] === 'p' && (!pair[1] || pair[1] === '')) {
-                hasEmptyP = true;
-                // 跳过空的p参数
-                continue;
-              } else if (pair[0] !== 'p') {
-                newParams.append(pair[0], pair[1]);
-              }
-            }
-
-            // 只有在有空p参数的情况下才进行URL更新
-            if (hasEmptyP) {
-              // 设置重定向尝试标记
-              sessionStorage.setItem('redirectAttempted', 'true');
-
-              var newQuery = newParams.toString();
-              var newUrl = l.pathname + (newQuery ? ('?' + newQuery) : '');
-
-              // 使用 history API 更新URL，但保留当前路径
-              history.replaceState(null, null, newUrl);
-            }
+        // 复制所有非p参数
+        url.searchParams.forEach(function(value, key) {
+          if (key !== 'p') {
+            newSearchParams.append(key, value);
           }
-        }
-      })();
-    </script>
-    <style>
-      /* 确保页面占满整个视口 */
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
+        });
+
+        // 设置新的搜索参数
+        var newSearch = newSearchParams.toString();
+        var cleanUrl = window.location.pathname + (newSearch ? ('?' + newSearch) : '');
+
+        // 使用replaceState更新URL，不触发页面重载
+        history.replaceState(null, null, cleanUrl);
       }
-      /* 添加加载动画 */
-      .app-loading {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-        z-index: 9999;
+
+      // 处理有值的p参数（路径重定向）
+      var pathParam = url.searchParams.get('p');
+      if (pathParam && pathParam.trim() !== '') {
+        // 删除所有p参数
+        var redirectParams = new URLSearchParams();
+        url.searchParams.forEach(function(value, key) {
+          if (key !== 'p') {
+            redirectParams.append(key, value);
+          }
+        });
+
+        var redirectSearch = redirectParams.toString();
+        var redirectPath = pathParam + (redirectSearch ? ('?' + redirectSearch) : '');
+
+        // 使用replaceState更新URL，不触发页面重载
+        history.replaceState(null, null, redirectPath);
       }
-      .app-loading-spinner {
-        width: 50px;
-        height: 50px;
-        border: 4px solid rgba(24, 144, 255, 0.2);
-        border-radius: 50%;
-        border-top-color: #1890ff;
-        animation: spin 1s ease-in-out infinite;
+    })();
+  </script>
+  <style>
+    /* 确保页面占满整个视口 */
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    /* 添加加载动画 */
+    .app-loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      z-index: 9999;
+    }
+    .app-loading-spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid rgba(24, 144, 255, 0.2);
+      border-radius: 50%;
+      border-top-color: #1890ff;
+      animation: spin 1s ease-in-out infinite;
+    }
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
       }
-      @keyframes spin {
-        to {
-          transform: rotate(360deg);
-        }
-      }
-      .loading-text {
-        margin-top: 20px;
-        color: #1890ff;
-        font-size: 16px;
-        font-weight: 500;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      }
-    </style>
-    <script type="module" crossorigin src="/assets/index-a1d33718.js"></script>
-    <link rel="modulepreload" crossorigin href="/assets/monaco-4009e1f3.js">
-    <link rel="stylesheet" href="/assets/monaco-79748880.css">
-    <link rel="stylesheet" href="/assets/index-b6feadd8.css">
-  </head>
-  <body>
-    <div id="app">
-      <!-- 添加加载指示器 -->
-      <div class="app-loading">
-        <div>
-          <div class="app-loading-spinner"></div>
-          <div class="loading-text">阿里搜正在加载...</div>
-        </div>
-      </div>
+    }
+    .loading-text {
+      margin-top: 20px;
+      color: #1890ff;
+      font-size: 16px;
+      font-weight: 500;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+  <!-- 添加加载指示器 -->
+  <div class="app-loading">
+    <div>
+      <div class="app-loading-spinner"></div>
+      <div class="loading-text">阿里搜正在加载...</div>
     </div>
-    
-  </body>
+  </div>
+</div>
+<script type="module" src="/src/main.js"></script>
+</body>
 </html>

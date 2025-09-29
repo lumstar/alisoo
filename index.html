@@ -9,7 +9,7 @@
     <meta name="keywords" content="阿里搜,智能搜索,搜索平台,文本对比,JSON格式化,时间戳转换,博客文章">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1832241453006526"
             crossorigin="anonymous"></script>
-    <!-- SPA 路由处理脚本 - 协调版 -->
+    <!-- SPA 路由处理脚本 - 改进版 -->
     <script type="text/javascript">
       // 处理SPA路由的脚本，与404.html协同工作
       (function() {
@@ -29,10 +29,15 @@
         // 处理会话存储中的重定向
         var redirect = sessionStorage.getItem('redirect');
         if (redirect && redirect !== '') {
+          // 清除重定向标记，防止循环
           sessionStorage.removeItem('redirect');
+
           // 标记新URL为已处理，防止循环
           sessionStorage.setItem('processedUrl', redirect);
-          window.location.replace(redirect);
+
+          // 关键改动：使用 history.replaceState 而不是 window.location.replace
+          // 这样可以保持URL状态而不触发页面刷新
+          history.replaceState(null, '', redirect);
           return;
         }
 
@@ -65,8 +70,8 @@
           // 标记新URL为已处理，防止循环
           sessionStorage.setItem('processedUrl', newUrl);
 
-          // 使用replace而不是replaceState，确保URL完全更新
-          window.location.replace(newUrl);
+          // 关键改动：使用 history.replaceState 而不是 window.location.replace
+          history.replaceState(null, '', newUrl);
         } else {
           // p参数为空，保留当前路径，只删除p参数
           newUrl = window.location.pathname + (newSearch ? ('?' + newSearch) : '');
@@ -74,8 +79,8 @@
           // 标记新URL为已处理，防止循环
           sessionStorage.setItem('processedUrl', newUrl);
 
-          // 使用replace更新URL，不触发页面重载
-          window.location.replace(newUrl);
+          // 使用 history.replaceState 更新URL，不触发页面重载
+          history.replaceState(null, '', newUrl);
         }
       })();
     </script>

@@ -6,23 +6,43 @@
   <script type="text/javascript">
     // 单页应用的GitHub Pages重定向
     (function(){
+      // 检查是否已经处理过重定向，防止循环
+      var redirectAttempted = sessionStorage.getItem('redirectAttempted');
+      if (redirectAttempted === 'true') {
+        // 如果已经尝试过重定向，清除标记并返回首页
+        sessionStorage.removeItem('redirectAttempted');
+        window.location.replace('/');
+        return;
+      }
+
+      // 设置重定向尝试标记
+      sessionStorage.setItem('redirectAttempted', 'true');
+
       // 保存URL中的路径部分
       var pathSegmentsToKeep = 1; // 如果部署在子目录，可能需要调整这个值
-      
+
       var l = window.location;
       var path = l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/';
       var restPath = l.pathname.slice(path.length);
       var query = l.search || '';
       var hash = l.hash || '';
-      
+
+      // 如果restPath为空，直接返回首页
+      if (!restPath || restPath === '') {
+        window.location.replace('/');
+        return;
+      }
+
       // 将当前URL的路径部分存储到sessionStorage
       sessionStorage.setItem('redirect', restPath + query + hash);
-      
-      // 重定向到根目录
+
+      // 重定向到根目录，使用唯一标识符防止重复处理
+      var timestamp = new Date().getTime();
       l.replace(
-        path + '?' + 
-        (query.length ? query.substring(1) + '&' : '') + 
-        'p=' + encodeURIComponent(restPath + hash)
+        path + '?' +
+        (query.length ? query.substring(1) + '&' : '') +
+        'p=' + encodeURIComponent(restPath) +
+        '&_t=' + timestamp // 添加时间戳确保URL唯一
       );
     })();
   </script>
